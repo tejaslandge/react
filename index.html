@@ -1,0 +1,2250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Teaching Guide - Basics to Hooks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tip {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .tip strong {
+            color: #2196F3;
+        }
+
+        .command-box {
+            background: #2d2d2d;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .command-box .copy-btn {
+            background: #00ff00;
+            color: #2d2d2d;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+
+            .nav ul {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚛️ React Complete Guide</h1>
+            <p>From Basics to Hooks - A Comprehensive Tutorial</p>
+        </div>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="#setup">Setup</a></li>
+                <li><a href="#basics">Basics</a></li>
+                <li><a href="#jsx">JSX</a></li>
+                <li><a href="#components">Components</a></li>
+                <li><a href="#props">Props</a></li>
+                <li><a href="#state">State</a></li>
+                <li><a href="#hooks">Hooks</a></li>
+                <li><a href="#useEffect">useEffect</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#calculator">Calculator</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <!-- SETUP SECTION -->
+            <section id="setup" class="section">
+                <h2>1. Getting Started with React</h2>
+                
+                <h3>Prerequisites</h3>
+                <ul>
+                    <li>Node.js (version 14 or higher)</li>
+                    <li>npm or yarn package manager</li>
+                    <li>Basic JavaScript knowledge</li>
+                    <li>Text editor (VS Code recommended)</li>
+                </ul>
+
+                <h3>Create a New React Project</h3>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>npx create-react-app my-first-react-app</pre>
+                </div>
+
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>cd my-first-react-app</pre>
+                </div>
+
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>npm start</pre>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Tip:</strong> The development server will start at http://localhost:3000 and automatically reload when you make changes.
+                </div>
+
+                <h3>Project Structure</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>my-first-react-app/
+├── node_modules/
+├── public/
+│   └── index.html
+├── src/
+│   ├── App.js
+│   ├── App.css
+│   ├── index.js
+│   └── index.css
+├── package.json
+└── README.md</pre>
+                </div>
+            </section>
+
+            <!-- BASICS SECTION -->
+            <section id="basics" class="section">
+                <h2>2. React Basics</h2>
+                
+                <h3>What is React?</h3>
+                <p>React is a JavaScript library for building user interfaces. It allows you to create reusable components that manage their own state and compose them to make complex UIs.</p>
+
+                <h3>Key Concepts</h3>
+                <ul>
+                    <li><strong>Component-Based:</strong> Build encapsulated components that manage their own state</li>
+                    <li><strong>Declarative:</strong> Design simple views for each state in your application</li>
+                    <li><strong>Virtual DOM:</strong> React creates an in-memory data structure cache for efficient updates</li>
+                </ul>
+
+                <h3>Your First React Component</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>// src/App.js
+import React from 'react';
+
+function App() {
+  return (
+    &lt;div className="App"&gt;
+      &lt;h1&gt;Hello, React!&lt;/h1&gt;
+      &lt;p&gt;Welcome to your first React application.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</pre>
+                </div>
+            </section>
+
+            <!-- JSX SECTION -->
+            <section id="jsx" class="section">
+                <h2>3. JSX (JavaScript XML)</h2>
+                
+                <p>JSX is a syntax extension for JavaScript that looks similar to HTML. It allows you to write HTML-like code in your JavaScript files.</p>
+
+                <h3>JSX Rules</h3>
+                <ul>
+                    <li>Must return a single parent element</li>
+                    <li>Use <code>className</code> instead of <code>class</code></li>
+                    <li>Close all tags (including self-closing tags like &lt;img /&gt;)</li>
+                    <li>Use camelCase for attributes (onClick, onChange, etc.)</li>
+                </ul>
+
+                <h3>JSX Examples</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>// Embedding JavaScript expressions
+function Greeting() {
+  const name = "John";
+  const age = 25;
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello, {name}!&lt;/h1&gt;
+      &lt;p&gt;You are {age} years old.&lt;/p&gt;
+      &lt;p&gt;Next year you will be {age + 1}.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Conditional rendering
+function LoginStatus({ isLoggedIn }) {
+  return (
+    &lt;div&gt;
+      {isLoggedIn ? &lt;h1&gt;Welcome back!&lt;/h1&gt; : &lt;h1&gt;Please sign in.&lt;/h1&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// Lists and keys
+function TodoList() {
+  const todos = ['Learn React', 'Build a project', 'Master hooks'];
+  
+  return (
+    &lt;ul&gt;
+      {todos.map((todo, index) =&gt; (
+        &lt;li key={index}&gt;{todo}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</pre>
+                </div>
+            </section>
+
+            <!-- COMPONENTS SECTION -->
+            <section id="components" class="section">
+                <h2>4. Components</h2>
+                
+                <p>Components are the building blocks of React applications. There are two types: Function Components and Class Components (we'll focus on Function Components).</p>
+
+                <h3>Function Components</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>// Simple function component
+function Welcome() {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+}
+
+// Arrow function component
+const Welcome = () =&gt; {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+}
+
+// Component with logic
+function UserCard() {
+  const user = {
+    name: 'Sarah Johnson',
+    role: 'Developer',
+    avatar: '👩‍💻'
+  };
+
+  return (
+    &lt;div className="user-card"&gt;
+      &lt;div className="avatar"&gt;{user.avatar}&lt;/div&gt;
+      &lt;h2&gt;{user.name}&lt;/h2&gt;
+      &lt;p&gt;{user.role}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>Composing Components</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function Header() {
+  return &lt;header&gt;&lt;h1&gt;My Website&lt;/h1&gt;&lt;/header&gt;;
+}
+
+function Content() {
+  return &lt;main&gt;&lt;p&gt;This is the main content.&lt;/p&gt;&lt;/main&gt;;
+}
+
+function Footer() {
+  return &lt;footer&gt;&lt;p&gt;© 2024 My Website&lt;/p&gt;&lt;/footer&gt;;
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;
+      &lt;Content /&gt;
+      &lt;Footer /&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+            </section>
+
+            <!-- PROPS SECTION -->
+            <section id="props" class="section">
+                <h2>5. Props (Properties)</h2>
+                
+                <p>Props are arguments passed into React components. They allow you to pass data from parent components to child components.</p>
+
+                <h3>Basic Props</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>// Child component receiving props
+function Greeting(props) {
+  return &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;;
+}
+
+// Using destructuring (recommended)
+function Greeting({ name }) {
+  return &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
+}
+
+// Parent component passing props
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Greeting name="Alice" /&gt;
+      &lt;Greeting name="Bob" /&gt;
+      &lt;Greeting name="Charlie" /&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>Multiple Props</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function UserProfile({ name, age, email, isAdmin }) {
+  return (
+    &lt;div className="profile"&gt;
+      &lt;h2&gt;{name}&lt;/h2&gt;
+      &lt;p&gt;Age: {age}&lt;/p&gt;
+      &lt;p&gt;Email: {email}&lt;/p&gt;
+      {isAdmin && &lt;span className="badge"&gt;Admin&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;UserProfile 
+      name="John Doe"
+      age={30}
+      email="john@example.com"
+      isAdmin={true}
+    /&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>Props with Objects and Arrays</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function ProductCard({ product }) {
+  return (
+    &lt;div className="product-card"&gt;
+      &lt;h3&gt;{product.name}&lt;/h3&gt;
+      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;p&gt;{product.description}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function ProductList({ products }) {
+  return (
+    &lt;div className="product-list"&gt;
+      {products.map((product) =&gt; (
+        &lt;ProductCard key={product.id} product={product} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  const products = [
+    { id: 1, name: 'Laptop', price: 999, description: 'Powerful laptop' },
+    { id: 2, name: 'Phone', price: 699, description: 'Latest smartphone' },
+    { id: 3, name: 'Tablet', price: 499, description: 'Portable tablet' }
+  ];
+
+  return &lt;ProductList products={products} /&gt;;
+}</pre>
+                </div>
+
+                <h3>Default Props</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function Button({ text = 'Click Me', color = 'blue' }) {
+  return (
+    &lt;button style={{ backgroundColor: color }}&gt;
+      {text}
+    &lt;/button&gt;
+  );
+}
+
+// Usage
+&lt;Button /&gt;  // Uses defaults: "Click Me" and blue
+&lt;Button text="Submit" color="green" /&gt;</pre>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Remember:</strong> Props are read-only! You cannot modify props inside a component. They flow down from parent to child (one-way data flow).
+                </div>
+            </section>
+
+            <!-- STATE SECTION -->
+            <section id="state" class="section">
+                <h2>6. State and useState Hook</h2>
+                
+                <p>State is data that changes over time. Unlike props, state is managed within the component and can be updated.</p>
+
+                <h3>Importing useState</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';</pre>
+                </div>
+
+                <h3>Basic useState Example</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function Counter() {
+  // Declare a state variable
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>Multiple State Variables</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function UserForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState(0);
+
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    console.log({ name, email, age });
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) =&gt; setName(e.target.value)}
+      /&gt;
+      &lt;input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) =&gt; setEmail(e.target.value)}
+      /&gt;
+      &lt;input
+        type="number"
+        placeholder="Age"
+        value={age}
+        onChange={(e) =&gt; setAge(e.target.value)}
+      /&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>State with Objects</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function UserProfile() {
+  const [user, setUser] = useState({
+    name: 'John',
+    age: 25,
+    email: 'john@example.com'
+  });
+
+  const updateName = (newName) =&gt; {
+    setUser({
+      ...user,  // Spread existing properties
+      name: newName  // Update only name
+    });
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Name: {user.name}&lt;/p&gt;
+      &lt;p&gt;Age: {user.age}&lt;/p&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+      &lt;button onClick={() =&gt; updateName('Jane')}&gt;
+        Change Name
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>State with Arrays</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function TodoApp() {
+  const [todos, setTodos] = useState(['Learn React', 'Build a project']);
+  const [input, setInput] = useState('');
+
+  const addTodo = () =&gt; {
+    if (input.trim()) {
+      setTodos([...todos, input]);
+      setInput('');
+    }
+  };
+
+  const removeTodo = (index) =&gt; {
+    setTodos(todos.filter((_, i) =&gt; i !== index));
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        value={input}
+        onChange={(e) =&gt; setInput(e.target.value)}
+        placeholder="Enter a todo"
+      /&gt;
+      &lt;button onClick={addTodo}&gt;Add&lt;/button&gt;
+      
+      &lt;ul&gt;
+        {todos.map((todo, index) =&gt; (
+          &lt;li key={index}&gt;
+            {todo}
+            &lt;button onClick={() =&gt; removeTodo(index)}&gt;Delete&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+            </section>
+
+            <!-- HOOKS SECTION -->
+            <section id="hooks" class="section">
+                <h2>7. React Hooks Overview</h2>
+                
+                <p>Hooks are functions that let you "hook into" React features from function components.</p>
+
+                <h3>Common Hooks</h3>
+                <ul>
+                    <li><strong>useState:</strong> Manage component state</li>
+                    <li><strong>useEffect:</strong> Perform side effects (API calls, subscriptions, etc.)</li>
+                    <li><strong>useContext:</strong> Access context values</li>
+                    <li><strong>useRef:</strong> Access DOM elements or persist values</li>
+                    <li><strong>useMemo:</strong> Memoize expensive calculations</li>
+                    <li><strong>useCallback:</strong> Memoize functions</li>
+                    <li><strong>useReducer:</strong> Alternative to useState for complex state logic</li>
+                </ul>
+
+                <h3>Rules of Hooks</h3>
+                <div class="tip">
+                    <strong>⚠️ Important Rules:</strong>
+                    <ul>
+                        <li>Only call hooks at the top level (not inside loops, conditions, or nested functions)</li>
+                        <li>Only call hooks from React function components or custom hooks</li>
+                        <li>Hook names must start with "use"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- USEEFFECT SECTION -->
+            <section id="useEffect" class="section">
+                <h2>8. useEffect Hook</h2>
+                
+                <p>useEffect lets you perform side effects in function components. It serves the same purpose as componentDidMount, componentDidUpdate, and componentWillUnmount in class components.</p>
+
+                <h3>Basic useEffect</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState, useEffect } from 'react';
+
+function DocumentTitle() {
+  const [count, setCount] = useState(0);
+
+  // Runs after every render
+  useEffect(() =&gt; {
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>useEffect with Dependency Array</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+
+  // Runs only when userId changes
+  useEffect(() =&gt; {
+    fetch(`https://api.example.com/users/${userId}`)
+      .then(response =&gt; response.json())
+      .then(data =&gt; setUser(data));
+  }, [userId]); // Dependency array
+
+  if (!user) return &lt;p&gt;Loading...&lt;/p&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;{user.name}&lt;/h2&gt;
+      &lt;p&gt;{user.email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>useEffect Runs Once (componentDidMount)</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function DataFetcher() {
+  const [data, setData] = useState([]);
+
+  // Runs only once when component mounts
+  useEffect(() =&gt; {
+    fetch('https://api.example.com/data')
+      .then(response =&gt; response.json())
+      .then(data =&gt; setData(data));
+  }, []); // Empty dependency array
+
+  return (
+    &lt;ul&gt;
+      {data.map(item =&gt; (
+        &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</pre>
+                </div>
+
+                <h3>useEffect with Cleanup</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() =&gt; {
+    // Setup: Start the interval
+    const interval = setInterval(() =&gt; {
+      setSeconds(prev =&gt; prev + 1);
+    }, 1000);
+
+    // Cleanup: Clear the interval when component unmounts
+    return () =&gt; {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return &lt;div&gt;Seconds: {seconds}&lt;/div&gt;;
+}</pre>
+                </div>
+
+                <h3>Multiple useEffect Hooks</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>function UserDashboard({ userId }) {
+  const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+
+  // Effect for fetching user data
+  useEffect(() =&gt; {
+    fetch(`/api/users/${userId}`)
+      .then(res =&gt; res.json())
+      .then(data =&gt; setUser(data));
+  }, [userId]);
+
+  // Effect for fetching user posts
+  useEffect(() =&gt; {
+    fetch(`/api/users/${userId}/posts`)
+      .then(res =&gt; res.json())
+      .then(data =&gt; setPosts(data));
+  }, [userId]);
+
+  // Effect for updating document title
+  useEffect(() =&gt; {
+    if (user) {
+      document.title = `${user.name}'s Dashboard`;
+    }
+  }, [user]);
+
+  return (
+    &lt;div&gt;
+      {user && &lt;h1&gt;{user.name}&lt;/h1&gt;}
+      &lt;ul&gt;
+        {posts.map(post =&gt; (
+          &lt;li key={post.id}&gt;{post.title}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+            </section>
+
+            <!-- EXAMPLES SECTION -->
+            <section id="examples" class="section">
+                <h2>9. Complete Examples</h2>
+
+                <h3>Example 1: Counter App</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function CounterApp() {
+  const [count, setCount] = useState(0);
+
+  const increment = () =&gt; setCount(count + 1);
+  const decrement = () =&gt; setCount(count - 1);
+  const reset = () =&gt; setCount(0);
+
+  return (
+    &lt;div style={{ textAlign: 'center', padding: '50px' }}&gt;
+      &lt;h1&gt;Counter App&lt;/h1&gt;
+      &lt;h2 style={{ fontSize: '48px', margin: '20px' }}&gt;{count}&lt;/h2&gt;
+      &lt;div&gt;
+        &lt;button onClick={increment} style={{ margin: '5px', padding: '10px 20px' }}&gt;
+          Increment
+        &lt;/button&gt;
+        &lt;button onClick={decrement} style={{ margin: '5px', padding: '10px 20px' }}&gt;
+          Decrement
+        &lt;/button&gt;
+        &lt;button onClick={reset} style={{ margin: '5px', padding: '10px 20px' }}&gt;
+          Reset
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default CounterApp;</pre>
+                </div>
+
+                <h3>Example 2: Todo List App</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function TodoList() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+
+  const addTodo = () =&gt; {
+    if (input.trim()) {
+      setTodos([...todos, { id: Date.now(), text: input, completed: false }]);
+      setInput('');
+    }
+  };
+
+  const toggleTodo = (id) =&gt; {
+    setTodos(todos.map(todo =&gt;
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  const deleteTodo = (id) =&gt; {
+    setTodos(todos.filter(todo =&gt; todo.id !== id));
+  };
+
+  return (
+    &lt;div style={{ maxWidth: '500px', margin: '50px auto', padding: '20px' }}&gt;
+      &lt;h1&gt;My Todo List&lt;/h1&gt;
+      
+      &lt;div style={{ display: 'flex', marginBottom: '20px' }}&gt;
+        &lt;input
+          type="text"
+          value={input}
+          onChange={(e) =&gt; setInput(e.target.value)}
+          onKeyPress={(e) =&gt; e.key === 'Enter' && addTodo()}
+          placeholder="Add a new todo..."
+          style={{ flex: 1, padding: '10px', fontSize: '16px' }}
+        /&gt;
+        &lt;button onClick={addTodo} style={{ padding: '10px 20px', marginLeft: '10px' }}&gt;
+          Add
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;ul style={{ listStyle: 'none', padding: 0 }}&gt;
+        {todos.map(todo =&gt; (
+          &lt;li
+            key={todo.id}
+            style={{
+              padding: '10px',
+              marginBottom: '10px',
+              backgroundColor: '#f4f4f4',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          &gt;
+            &lt;span
+              onClick={() =&gt; toggleTodo(todo.id)}
+              style={{
+                textDecoration: todo.completed ? 'line-through' : 'none',
+                cursor: 'pointer',
+                flex: 1
+              }}
+            &gt;
+              {todo.text}
+            &lt;/span&gt;
+            &lt;button onClick={() =&gt; deleteTodo(todo.id)} style={{ marginLeft: '10px' }}&gt;
+              Delete
+            &lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default TodoList;</pre>
+                </div>
+
+                <h3>Example 3: API Data Fetching</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState, useEffect } from 'react';
+
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() =&gt; {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response =&gt; {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data =&gt; {
+        setUsers(data);
+        setLoading(false);
+      })
+      .catch(error =&gt; {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return &lt;div&gt;Loading...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error: {error}&lt;/div&gt;;
+
+  return (
+    &lt;div style={{ padding: '20px' }}&gt;
+      &lt;h1&gt;User Directory&lt;/h1&gt;
+      &lt;div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}&gt;
+        {users.map(user =&gt; (
+          &lt;div
+            key={user.id}
+            style={{
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              padding: '15px',
+              backgroundColor: '#f9f9f9'
+            }}
+          &gt;
+            &lt;h3&gt;{user.name}&lt;/h3&gt;
+            &lt;p&gt;Email: {user.email}&lt;/p&gt;
+            &lt;p&gt;Phone: {user.phone}&lt;/p&gt;
+            &lt;p&gt;City: {user.address.city}&lt;/p&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default UserList;</pre>
+                </div>
+
+                <h3>Example 4: Form with Validation</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function RegistrationForm() {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) =&gt; {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const validate = () =&gt; {
+    const newErrors = {};
+
+    if (!formData.username) {
+      newErrors.username = 'Username is required';
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length &lt; 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    const newErrors = validate();
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted:', formData);
+      alert('Registration successful!');
+    } else {
+      setErrors(newErrors);
+    }
+  };
+
+  return (
+    &lt;div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}&gt;
+      &lt;h2&gt;Registration Form&lt;/h2&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;div style={{ marginBottom: '15px' }}&gt;
+          &lt;input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+          /&gt;
+          {errors.username && &lt;p style={{ color: 'red', fontSize: '14px' }}&gt;{errors.username}&lt;/p&gt;}
+        &lt;/div&gt;
+
+        &lt;div style={{ marginBottom: '15px' }}&gt;
+          &lt;input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+          /&gt;
+          {errors.email && &lt;p style={{ color: 'red', fontSize: '14px' }}&gt;{errors.email}&lt;/p&gt;}
+        &lt;/div&gt;
+
+        &lt;div style={{ marginBottom: '15px' }}&gt;
+          &lt;input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+          /&gt;
+          {errors.password && &lt;p style={{ color: 'red', fontSize: '14px' }}&gt;{errors.password}&lt;/p&gt;}
+        &lt;/div&gt;
+
+        &lt;div style={{ marginBottom: '15px' }}&gt;
+          &lt;input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+          /&gt;
+          {errors.confirmPassword && &lt;p style={{ color: 'red', fontSize: '14px' }}&gt;{errors.confirmPassword}&lt;/p&gt;}
+        &lt;/div&gt;
+
+        &lt;button type="submit" style={{ width: '100%', padding: '12px', fontSize: '16px', backgroundColor: '#667eea', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}&gt;
+          Register
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default RegistrationForm;</pre>
+                </div>
+
+                <h3>Example 5: Search Filter</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function SearchFilter() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const items = [
+    'Apple', 'Banana', 'Orange', 'Mango', 'Pineapple',
+    'Grapes', 'Watermelon', 'Strawberry', 'Blueberry', 'Kiwi'
+  ];
+
+  const filteredItems = items.filter(item =&gt;
+    item.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    &lt;div style={{ maxWidth: '500px', margin: '50px auto', padding: '20px' }}&gt;
+      &lt;h2&gt;Fruit Search&lt;/h2&gt;
+      
+      &lt;input
+        type="text"
+        placeholder="Search fruits..."
+        value={searchTerm}
+        onChange={(e) =&gt; setSearchTerm(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '12px',
+          fontSize: '16px',
+          marginBottom: '20px',
+          border: '2px solid #667eea',
+          borderRadius: '5px'
+        }}
+      /&gt;
+
+      &lt;ul style={{ listStyle: 'none', padding: 0 }}&gt;
+        {filteredItems.length &gt; 0 ? (
+          filteredItems.map((item, index) =&gt; (
+            &lt;li
+              key={index}
+              style={{
+                padding: '12px',
+                marginBottom: '8px',
+                backgroundColor: '#f4f4f4',
+                borderRadius: '5px',
+                border: '1px solid #ddd'
+              }}
+            &gt;
+              {item}
+            &lt;/li&gt;
+          ))
+        ) : (
+          &lt;li style={{ textAlign: 'center', color: '#999' }}&gt;
+            No fruits found
+          &lt;/li&gt;
+        )}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default SearchFilter;</pre>
+                </div>
+            </section>
+
+            <!-- CALCULATOR EXAMPLES -->
+            <section id="calculator" class="section">
+                <h2>10. Calculator & Math Operations Examples</h2>
+
+                <h3>Example 1: Simple Calculator (Addition & Subtraction)</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function SimpleCalculator() {
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [result, setResult] = useState(null);
+
+  const handleAdd = () => {
+    setResult(parseFloat(num1) + parseFloat(num2));
+  };
+
+  const handleSubtract = () => {
+    setResult(parseFloat(num1) - parseFloat(num2));
+  };
+
+  const handleClear = () => {
+    setNum1('');
+    setNum2('');
+    setResult(null);
+  };
+
+  return (
+    &lt;div style={{ 
+      maxWidth: '400px', 
+      margin: '50px auto', 
+      padding: '30px',
+      backgroundColor: '#f0f4f8',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }}&gt;
+      &lt;h2 style={{ textAlign: 'center', color: '#2d3748' }}&gt;Simple Calculator&lt;/h2&gt;
+      
+      &lt;div style={{ marginBottom: '20px' }}&gt;
+        &lt;input
+          type="number"
+          value={num1}
+          onChange={(e) =&gt; setNum1(e.target.value)}
+          placeholder="Enter first number"
+          style={{
+            width: '100%',
+            padding: '12px',
+            fontSize: '16px',
+            marginBottom: '10px',
+            border: '2px solid #cbd5e0',
+            borderRadius: '5px'
+          }}
+        /&gt;
+        
+        &lt;input
+          type="number"
+          value={num2}
+          onChange={(e) =&gt; setNum2(e.target.value)}
+          placeholder="Enter second number"
+          style={{
+            width: '100%',
+            padding: '12px',
+            fontSize: '16px',
+            border: '2px solid #cbd5e0',
+            borderRadius: '5px'
+          }}
+        /&gt;
+      &lt;/div&gt;
+
+      {result !== null && (
+        &lt;div style={{
+          backgroundColor: '#667eea',
+          color: 'white',
+          padding: '20px',
+          borderRadius: '5px',
+          textAlign: 'center',
+          fontSize: '24px',
+          fontWeight: 'bold',
+          marginBottom: '20px'
+        }}&gt;
+          Result: {result}
+        &lt;/div&gt;
+      )}
+
+      &lt;div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}&gt;
+        &lt;button
+          onClick={handleAdd}
+          style={{
+            flex: 1,
+            padding: '15px',
+            fontSize: '16px',
+            backgroundColor: '#48bb78',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        &gt;
+          ➕ Add
+        &lt;/button&gt;
+        
+        &lt;button
+          onClick={handleSubtract}
+          style={{
+            flex: 1,
+            padding: '15px',
+            fontSize: '16px',
+            backgroundColor: '#f56565',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        &gt;
+          ➖ Subtract
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;button
+        onClick={handleClear}
+        style={{
+          width: '100%',
+          padding: '12px',
+          fontSize: '16px',
+          backgroundColor: '#718096',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer'
+        }}
+      &gt;
+        Clear
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default SimpleCalculator;</pre>
+                </div>
+
+                <h3>Example 2: Advanced Calculator (All Operations)</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function AdvancedCalculator() {
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [operation, setOperation] = useState('add');
+  const [result, setResult] = useState(null);
+
+  const calculate = () => {
+    const n1 = parseFloat(num1);
+    const n2 = parseFloat(num2);
+    let res;
+
+    switch(operation) {
+      case 'add':
+        res = n1 + n2;
+        break;
+      case 'subtract':
+        res = n1 - n2;
+        break;
+      case 'multiply':
+        res = n1 * n2;
+        break;
+      case 'divide':
+        res = n2 !== 0 ? n1 / n2 : 'Cannot divide by zero';
+        break;
+      default:
+        res = 0;
+    }
+
+    setResult(res);
+  };
+
+  return (
+    &lt;div style={{ 
+      maxWidth: '500px', 
+      margin: '50px auto', 
+      padding: '30px',
+      backgroundColor: '#fff',
+      borderRadius: '15px',
+      boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+    }}&gt;
+      &lt;h2 style={{ textAlign: 'center', color: '#667eea', marginBottom: '30px' }}&gt;
+        🧮 Advanced Calculator
+      &lt;/h2&gt;
+      
+      &lt;div style={{ marginBottom: '20px' }}&gt;
+        &lt;input
+          type="number"
+          value={num1}
+          onChange={(e) =&gt; setNum1(e.target.value)}
+          placeholder="First number"
+          style={{
+            width: '100%',
+            padding: '15px',
+            fontSize: '18px',
+            marginBottom: '15px',
+            border: '2px solid #667eea',
+            borderRadius: '8px'
+          }}
+        /&gt;
+        
+        &lt;select
+          value={operation}
+          onChange={(e) =&gt; setOperation(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '15px',
+            fontSize: '18px',
+            marginBottom: '15px',
+            border: '2px solid #667eea',
+            borderRadius: '8px',
+            backgroundColor: 'white'
+          }}
+        &gt;
+          &lt;option value="add"&gt;➕ Addition&lt;/option&gt;
+          &lt;option value="subtract"&gt;➖ Subtraction&lt;/option&gt;
+          &lt;option value="multiply"&gt;✖️ Multiplication&lt;/option&gt;
+          &lt;option value="divide"&gt;➗ Division&lt;/option&gt;
+        &lt;/select&gt;
+        
+        &lt;input
+          type="number"
+          value={num2}
+          onChange={(e) =&gt; setNum2(e.target.value)}
+          placeholder="Second number"
+          style={{
+            width: '100%',
+            padding: '15px',
+            fontSize: '18px',
+            border: '2px solid #667eea',
+            borderRadius: '8px'
+          }}
+        /&gt;
+      &lt;/div&gt;
+
+      {result !== null && (
+        &lt;div style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          padding: '25px',
+          borderRadius: '10px',
+          textAlign: 'center',
+          fontSize: '28px',
+          fontWeight: 'bold',
+          marginBottom: '20px',
+          boxShadow: '0 5px 15px rgba(102, 126, 234, 0.4)'
+        }}&gt;
+          = {result}
+        &lt;/div&gt;
+      )}
+
+      &lt;button
+        onClick={calculate}
+        style={{
+          width: '100%',
+          padding: '18px',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          transition: 'transform 0.2s'
+        }}
+        onMouseOver={(e) =&gt; e.target.style.transform = 'scale(1.02)'}
+        onMouseOut={(e) =&gt; e.target.style.transform = 'scale(1)'}
+      &gt;
+        Calculate
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AdvancedCalculator;</pre>
+                </div>
+
+                <h3>Example 3: Square & Cube Calculator</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function PowerCalculator() {
+  const [number, setNumber] = useState('');
+  const [results, setResults] = useState({
+    square: null,
+    cube: null,
+    squareRoot: null
+  });
+
+  const calculatePowers = () => {
+    const num = parseFloat(number);
+    
+    setResults({
+      square: num * num,
+      cube: num * num * num,
+      squareRoot: Math.sqrt(num)
+    });
+  };
+
+  const clearAll = () => {
+    setNumber('');
+    setResults({ square: null, cube: null, squareRoot: null });
+  };
+
+  return (
+    &lt;div style={{ 
+      maxWidth: '500px', 
+      margin: '50px auto', 
+      padding: '30px',
+      background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      borderRadius: '15px',
+      boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+    }}&gt;
+      &lt;h2 style={{ 
+        textAlign: 'center', 
+        color: 'white', 
+        marginBottom: '25px',
+        fontSize: '28px'
+      }}&gt;
+        ⚡ Power Calculator
+      &lt;/h2&gt;
+      
+      &lt;input
+        type="number"
+        value={number}
+        onChange={(e) =&gt; setNumber(e.target.value)}
+        placeholder="Enter a number"
+        style={{
+          width: '100%',
+          padding: '18px',
+          fontSize: '20px',
+          marginBottom: '20px',
+          border: 'none',
+          borderRadius: '10px',
+          textAlign: 'center',
+          fontWeight: 'bold'
+        }}
+      /&gt;
+
+      {results.square !== null && (
+        &lt;div style={{ marginBottom: '20px' }}&gt;
+          &lt;div style={{
+            backgroundColor: 'rgba(255,255,255,0.95)',
+            padding: '15px',
+            borderRadius: '10px',
+            marginBottom: '10px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}&gt;
+            &lt;span style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}&gt;
+              Square (x²):
+            &lt;/span&gt;
+            &lt;span style={{ fontSize: '24px', fontWeight: 'bold', color: '#667eea' }}&gt;
+              {results.square}
+            &lt;/span&gt;
+          &lt;/div&gt;
+
+          &lt;div style={{
+            backgroundColor: 'rgba(255,255,255,0.95)',
+            padding: '15px',
+            borderRadius: '10px',
+            marginBottom: '10px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}&gt;
+            &lt;span style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}&gt;
+              Cube (x³):
+            &lt;/span&gt;
+            &lt;span style={{ fontSize: '24px', fontWeight: 'bold', color: '#764ba2' }}&gt;
+              {results.cube}
+            &lt;/span&gt;
+          &lt;/div&gt;
+
+          &lt;div style={{
+            backgroundColor: 'rgba(255,255,255,0.95)',
+            padding: '15px',
+            borderRadius: '10px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}&gt;
+            &lt;span style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}&gt;
+              Square Root (√x):
+            &lt;/span&gt;
+            &lt;span style={{ fontSize: '24px', fontWeight: 'bold', color: '#48bb78' }}&gt;
+              {results.squareRoot.toFixed(2)}
+            &lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      &lt;div style={{ display: 'flex', gap: '10px' }}&gt;
+        &lt;button
+          onClick={calculatePowers}
+          style={{
+            flex: 1,
+            padding: '15px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            backgroundColor: 'white',
+            color: '#f5576c',
+            border: 'none',
+            borderRadius: '10px',
+            cursor: 'pointer'
+          }}
+        &gt;
+          Calculate
+        &lt;/button&gt;
+        
+        &lt;button
+          onClick={clearAll}
+          style={{
+            flex: 1,
+            padding: '15px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            backgroundColor: 'rgba(255,255,255,0.3)',
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: '10px',
+            cursor: 'pointer'
+          }}
+        &gt;
+          Clear
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default PowerCalculator;</pre>
+                </div>
+
+                <h3>Example 4: Multi-Operation Math Tool</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState } from 'react';
+
+function MathTool() {
+  const [number, setNumber] = useState('');
+  const [showResults, setShowResults] = useState(false);
+
+  const calculations = {
+    original: number,
+    square: Math.pow(parseFloat(number) || 0, 2),
+    cube: Math.pow(parseFloat(number) || 0, 3),
+    squareRoot: Math.sqrt(parseFloat(number) || 0),
+    cubeRoot: Math.cbrt(parseFloat(number) || 0),
+    double: (parseFloat(number) || 0) * 2,
+    half: (parseFloat(number) || 0) / 2,
+    negative: -(parseFloat(number) || 0)
+  };
+
+  const handleCalculate = () => {
+    if (number !== '') {
+      setShowResults(true);
+    }
+  };
+
+  return (
+    &lt;div style={{ 
+      maxWidth: '600px', 
+      margin: '50px auto', 
+      padding: '30px',
+      backgroundColor: '#1a202c',
+      color: 'white',
+      borderRadius: '15px'
+    }}&gt;
+      &lt;h2 style={{ textAlign: 'center', marginBottom: '30px', fontSize: '32px' }}&gt;
+        🔢 Complete Math Tool
+      &lt;/h2&gt;
+      
+      &lt;div style={{ marginBottom: '30px' }}&gt;
+        &lt;input
+          type="number"
+          value={number}
+          onChange={(e) =&gt; setNumber(e.target.value)}
+          placeholder="Enter any number"
+          style={{
+            width: '100%',
+            padding: '20px',
+            fontSize: '24px',
+            backgroundColor: '#2d3748',
+            color: 'white',
+            border: '2px solid #4a5568',
+            borderRadius: '10px',
+            textAlign: 'center'
+          }}
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;button
+        onClick={handleCalculate}
+        style={{
+          width: '100%',
+          padding: '18px',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          border: 'none',
+          borderRadius: '10px',
+          cursor: 'pointer',
+          marginBottom: '30px'
+        }}
+      &gt;
+        🎯 Calculate All
+      &lt;/button&gt;
+
+      {showResults && number !== '' && (
+        &lt;div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(2, 1fr)', 
+          gap: '15px' 
+        }}&gt;
+          &lt;ResultCard label="Original" value={calculations.original} icon="📍" /&gt;
+          &lt;ResultCard label="Square (x²)" value={calculations.square} icon="²" /&gt;
+          &lt;ResultCard label="Cube (x³)" value={calculations.cube} icon="³" /&gt;
+          &lt;ResultCard label="Square Root" value={calculations.squareRoot.toFixed(2)} icon="√" /&gt;
+          &lt;ResultCard label="Cube Root" value={calculations.cubeRoot.toFixed(2)} icon="∛" /&gt;
+          &lt;ResultCard label="Double (2x)" value={calculations.double} icon="✖️2" /&gt;
+          &lt;ResultCard label="Half (x/2)" value={calculations.half} icon="➗2" /&gt;
+          &lt;ResultCard label="Negative (-x)" value={calculations.negative} icon="−" /&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+function ResultCard({ label, value, icon }) {
+  return (
+    &lt;div style={{
+      backgroundColor: '#2d3748',
+      padding: '20px',
+      borderRadius: '10px',
+      textAlign: 'center',
+      border: '2px solid #4a5568'
+    }}&gt;
+      &lt;div style={{ fontSize: '24px', marginBottom: '10px' }}&gt;{icon}&lt;/div&gt;
+      &lt;div style={{ fontSize: '12px', color: '#a0aec0', marginBottom: '8px' }}&gt;
+        {label}
+      &lt;/div&gt;
+      &lt;div style={{ fontSize: '24px', fontWeight: 'bold', color: '#667eea' }}&gt;
+        {value}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default MathTool;</pre>
+                </div>
+
+                <h3>Example 5: Interactive Math Playground</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import React, { useState, useEffect } from 'react';
+
+function MathPlayground() {
+  const [num1, setNum1] = useState(10);
+  const [num2, setNum2] = useState(5);
+  const [liveResults, setLiveResults] = useState({});
+
+  // Calculate results whenever numbers change
+  useEffect(() => {
+    setLiveResults({
+      addition: num1 + num2,
+      subtraction: num1 - num2,
+      multiplication: num1 * num2,
+      division: num2 !== 0 ? (num1 / num2).toFixed(2) : 'Error',
+      power: Math.pow(num1, num2),
+      average: ((num1 + num2) / 2).toFixed(2),
+      max: Math.max(num1, num2),
+      min: Math.min(num1, num2)
+    });
+  }, [num1, num2]);
+
+  return (
+    &lt;div style={{ 
+      maxWidth: '700px', 
+      margin: '50px auto', 
+      padding: '40px',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      borderRadius: '20px',
+      color: 'white'
+    }}&gt;
+      &lt;h2 style={{ textAlign: 'center', fontSize: '36px', marginBottom: '10px' }}&gt;
+        🎮 Math Playground
+      &lt;/h2&gt;
+      &lt;p style={{ textAlign: 'center', opacity: 0.9, marginBottom: '30px' }}&gt;
+        Move the sliders and watch the magic happen!
+      &lt;/p&gt;
+
+      &lt;div style={{ 
+        backgroundColor: 'rgba(255,255,255,0.95)', 
+        padding: '30px', 
+        borderRadius: '15px',
+        color: '#333'
+      }}&gt;
+        &lt;div style={{ marginBottom: '25px' }}&gt;
+          &lt;label style={{ 
+            display: 'block', 
+            fontSize: '18px', 
+            fontWeight: 'bold', 
+            marginBottom: '10px',
+            color: '#667eea'
+          }}&gt;
+            First Number: {num1}
+          &lt;/label&gt;
+          &lt;input
+            type="range"
+            min="-100"
+            max="100"
+            value={num1}
+            onChange={(e) =&gt; setNum1(parseFloat(e.target.value))}
+            style={{
+              width: '100%',
+              height: '8px',
+              borderRadius: '5px',
+              outline: 'none'
+            }}
+          /&gt;
+        &lt;/div&gt;
+
+        &lt;div style={{ marginBottom: '25px' }}&gt;
+          &lt;label style={{ 
+            display: 'block', 
+            fontSize: '18px', 
+            fontWeight: 'bold', 
+            marginBottom: '10px',
+            color: '#764ba2'
+          }}&gt;
+            Second Number: {num2}
+          &lt;/label&gt;
+          &lt;input
+            type="range"
+            min="-100"
+            max="100"
+            value={num2}
+            onChange={(e) =&gt; setNum2(parseFloat(e.target.value))}
+            style={{
+              width: '100%',
+              height: '8px',
+              borderRadius: '5px',
+              outline: 'none'
+            }}
+          /&gt;
+        &lt;/div&gt;
+
+        &lt;div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(2, 1fr)', 
+          gap: '15px',
+          marginTop: '30px'
+        }}&gt;
+          &lt;OperationResult operation="Addition" symbol="+" result={liveResults.addition} /&gt;
+          &lt;OperationResult operation="Subtraction" symbol="−" result={liveResults.subtraction} /&gt;
+          &lt;OperationResult operation="Multiplication" symbol="×" result={liveResults.multiplication} /&gt;
+          &lt;OperationResult operation="Division" symbol="÷" result={liveResults.division} /&gt;
+          &lt;OperationResult operation="Power" symbol="^" result={liveResults.power} /&gt;
+          &lt;OperationResult operation="Average" symbol="Ø" result={liveResults.average} /&gt;
+          &lt;OperationResult operation="Maximum" symbol="↑" result={liveResults.max} /&gt;
+          &lt;OperationResult operation="Minimum" symbol="↓" result={liveResults.min} /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+function OperationResult({ operation, symbol, result }) {
+  return (
+    &lt;div style={{
+      backgroundColor: '#f7fafc',
+      padding: '15px',
+      borderRadius: '10px',
+      textAlign: 'center',
+      border: '2px solid #e2e8f0'
+    }}&gt;
+      &lt;div style={{ fontSize: '28px', marginBottom: '5px' }}&gt;{symbol}&lt;/div&gt;
+      &lt;div style={{ fontSize: '13px', color: '#718096', marginBottom: '8px' }}&gt;
+        {operation}
+      &lt;/div&gt;
+      &lt;div style={{ fontSize: '22px', fontWeight: 'bold', color: '#667eea' }}&gt;
+        {result}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default MathPlayground;</pre>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Learning Points:</strong>
+                    <ul>
+                        <li><strong>State Management:</strong> Using useState to track user input and calculated results</li>
+                        <li><strong>Event Handling:</strong> onChange events for inputs, onClick for buttons</li>
+                        <li><strong>Conditional Rendering:</strong> Showing results only when available</li>
+                        <li><strong>useEffect:</strong> Auto-calculating when values change (Example 5)</li>
+                        <li><strong>Component Composition:</strong> Breaking UI into smaller components</li>
+                        <li><strong>Math Operations:</strong> Using JavaScript Math object and operators</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ADDITIONAL TIPS -->
+            <section class="section">
+                <h2>11. Best Practices & Tips</h2>
+
+                <h3>Component Organization</h3>
+                <ul>
+                    <li>One component per file</li>
+                    <li>Name files the same as the component (e.g., Button.js for Button component)</li>
+                    <li>Keep components small and focused</li>
+                    <li>Extract reusable logic into custom hooks</li>
+                </ul>
+
+                <h3>State Management Tips</h3>
+                <ul>
+                    <li>Keep state as close as possible to where it's used</li>
+                    <li>Don't put everything in state - only data that changes</li>
+                    <li>Use derived state instead of storing computed values</li>
+                    <li>Prefer useState for simple state, useReducer for complex state logic</li>
+                </ul>
+
+                <h3>Performance Tips</h3>
+                <ul>
+                    <li>Use keys properly in lists (avoid using index as key)</li>
+                    <li>Memoize expensive calculations with useMemo</li>
+                    <li>Memoize callback functions with useCallback</li>
+                    <li>Code-split large applications using React.lazy and Suspense</li>
+                </ul>
+
+                <h3>Common Pitfalls to Avoid</h3>
+                <ul>
+                    <li>Don't mutate state directly - always create new objects/arrays</li>
+                    <li>Don't forget dependency arrays in useEffect</li>
+                    <li>Don't call hooks conditionally</li>
+                    <li>Don't forget to clean up effects (intervals, subscriptions, etc.)</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>🎯 Next Steps:</strong>
+                    <ul>
+                        <li>Practice building small projects</li>
+                        <li>Learn React Router for navigation</li>
+                        <li>Explore state management libraries (Redux, Zustand)</li>
+                        <li>Learn about Context API for global state</li>
+                        <li>Study React Testing Library for testing</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- USEFUL COMMANDS -->
+            <section class="section">
+                <h2>12. Useful Commands</h2>
+
+                <h3>Create React App Commands</h3>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Create a new React app
+npx create-react-app my-app
+
+# Navigate to the project
+cd my-app
+
+# Start development server
+npm start
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+
+# Eject (irreversible)
+npm run eject</pre>
+                </div>
+
+                <h3>Vite + React Project Commands</h3>
+                <p>Vite is a modern, faster alternative to Create React App with better performance and faster build times.</p>
+                
+                <div class="tip">
+                    <strong>⚡ Why Vite?</strong>
+                    <ul>
+                        <li>Lightning-fast Hot Module Replacement (HMR)</li>
+                        <li>Faster build times</li>
+                        <li>Smaller bundle sizes</li>
+                        <li>Modern tooling out of the box</li>
+                        <li>Better development experience</li>
+                    </ul>
+                </div>
+
+                <h4>Create Vite Project with React</h4>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Create new Vite + React project
+npm create vite@latest my-react-app -- --template react
+
+# Or with yarn
+yarn create vite my-react-app --template react
+
+# Or with pnpm
+pnpm create vite my-react-app --template react</pre>
+                </div>
+
+                <h4>Setup and Run Vite Project</h4>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Navigate to project directory
+cd my-react-app
+
+# Install dependencies
+npm install
+
+# Start development server (runs on http://localhost:5173)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview</pre>
+                </div>
+
+                <h4>Create Vite Project with TypeScript</h4>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Create Vite + React + TypeScript project
+npm create vite@latest my-react-ts-app -- --template react-ts
+
+cd my-react-ts-app
+npm install
+npm run dev</pre>
+                </div>
+
+                <h4>Vite Project Structure</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>my-react-app/
+├── node_modules/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── assets/
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx          # Entry point (instead of index.js)
+├── .gitignore
+├── index.html            # In root (not in public/)
+├── package.json
+└── vite.config.js        # Vite configuration</pre>
+                </div>
+
+                <h4>Basic Vite Configuration (vite.config.js)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,        // Change default port from 5173 to 3000
+    open: true         // Auto-open browser
+  },
+  build: {
+    outDir: 'dist',    // Output directory
+    sourcemap: true    // Generate source maps
+  }
+})</pre>
+                </div>
+
+                <h4>Vite Environment Variables</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Create .env file in project root
+VITE_API_URL=https://api.example.com
+VITE_APP_TITLE=My React App
+
+# Access in React components (must start with VITE_)
+const apiUrl = import.meta.env.VITE_API_URL;
+const appTitle = import.meta.env.VITE_APP_TITLE;</pre>
+                </div>
+
+                <h4>Key Differences: Create React App vs Vite</h4>
+                <div style="overflow-x: auto; margin: 20px 0;">
+                    <table style="width: 100%; border-collapse: collapse; background: white;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Feature</th>
+                                <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Create React App</th>
+                                <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Vite</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Entry File</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">src/index.js</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">src/main.jsx</td>
+                            </tr>
+                            <tr style="background: #f9f9f9;">
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">HTML Location</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">public/index.html</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">index.html (root)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Dev Server Port</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">3000</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">5173</td>
+                            </tr>
+                            <tr style="background: #f9f9f9;">
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Environment Vars</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">REACT_APP_*</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">VITE_*</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Start Command</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">npm start</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">npm run dev</td>
+                            </tr>
+                            <tr style="background: #f9f9f9;">
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Build Speed</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Slower</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">⚡ Much Faster</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">HMR Speed</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Good</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">⚡ Lightning Fast</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Sample Vite main.jsx File</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>// src/main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+)</pre>
+                </div>
+
+                <h4>Sample Vite index.html</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;link rel="icon" type="image/svg+xml" href="/vite.svg" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;Vite + React&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="root"&gt;&lt;/div&gt;
+    &lt;script type="module" src="/src/main.jsx"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+                </div>
+
+                <div class="tip">
+                    <strong>🚀 Pro Tip:</strong> Vite is recommended for new React projects due to its superior performance and developer experience. It's the modern standard and is used by many popular frameworks like Vue, Svelte, and now React developers are increasingly adopting it.
+                </div>
+
+                <h3>Installing Additional Packages</h3>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># React Router
+npm install react-router-dom
+
+# Axios for API calls
+npm install axios
+
+# Styled Components
+npm install styled-components
+
+# Redux
+npm install redux react-redux
+
+# Material-UI
+npm install @mui/material @emotion/react @emotion/styled</pre>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const code = codeBlock.querySelector('pre').textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.backgroundColor = '#4CAF50';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = button.parentElement.classList.contains('command-box') ? '#00ff00' : '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                button.textContent = 'Failed!';
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
