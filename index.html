@@ -52,6 +52,8 @@
 
         .section {
             margin-bottom: 50px;
+            padding-top: 100px; /* Add padding for fixed nav */
+            margin-top: -80px; /* Offset to maintain spacing */
         }
 
         .section h2 {
@@ -151,8 +153,10 @@
             background: #f8f9fa;
             padding: 20px;
             border-bottom: 2px solid #dee2e6;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
@@ -222,15 +226,131 @@
             <section id="setup" class="section">
                 <h2>1. Getting Started with React</h2>
                 
+                <h3>Step 1: Check Node.js Installation</h3>
+                <p>Before installing React, you need to have Node.js installed on your system. Node.js includes npm (Node Package Manager) which you'll use to install React.</p>
+
+                <h4>Check if Node.js is Installed</h4>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Check Node.js version
+node --version
+# or
+node -v
+
+# Check npm version
+npm --version
+# or
+npm -v</pre>
+                </div>
+
+                <div class="tip">
+                    <strong>✅ Expected Output:</strong> You should see version numbers like:
+                    <ul>
+                        <li>Node.js: v18.x.x or higher (recommended: v20.x.x)</li>
+                        <li>npm: 9.x.x or higher</li>
+                    </ul>
+                    If you don't see version numbers, Node.js is not installed.
+                </div>
+
+                <h3>Step 2: Install Node.js (If Not Installed)</h3>
+                
+                <h4>Windows Installation</h4>
+                <ol>
+                    <li>Visit <a href="https://nodejs.org/" target="_blank" style="color: #667eea;">https://nodejs.org/</a></li>
+                    <li>Download the LTS (Long Term Support) version</li>
+                    <li>Run the installer (.msi file)</li>
+                    <li>Follow the installation wizard</li>
+                    <li>Restart your computer</li>
+                    <li>Open Command Prompt or PowerShell and verify: <code>node -v</code></li>
+                </ol>
+
+                <h4>macOS Installation</h4>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Using Homebrew (recommended)
+# Install Homebrew first if you don't have it:
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Then install Node.js:
+brew install node
+
+# Verify installation
+node -v
+npm -v</pre>
+                </div>
+
+                <p><strong>Alternative for macOS:</strong></p>
+                <ol>
+                    <li>Visit <a href="https://nodejs.org/" target="_blank" style="color: #667eea;">https://nodejs.org/</a></li>
+                    <li>Download the macOS installer (.pkg file)</li>
+                    <li>Run the installer and follow the prompts</li>
+                    <li>Verify in Terminal: <code>node -v</code></li>
+                </ol>
+
+                <h4>Linux Installation (Ubuntu/Debian)</h4>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Update package index
+sudo apt update
+
+# Install Node.js and npm
+sudo apt install nodejs npm
+
+# Verify installation
+node -v
+npm -v
+
+# For latest version, use NodeSource repository:
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs</pre>
+                </div>
+
+                <h4>Using NVM (Node Version Manager) - Recommended for Developers</h4>
+                <p>NVM allows you to install and switch between multiple Node.js versions.</p>
+                
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Install NVM (macOS/Linux)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Or using wget:
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Restart terminal, then install Node.js:
+nvm install --lts
+nvm use --lts
+
+# Verify
+node -v
+npm -v</pre>
+                </div>
+
+                <div class="tip">
+                    <strong>🪟 Windows Users:</strong> For NVM on Windows, download <strong>nvm-windows</strong> from <a href="https://github.com/coreybutler/nvm-windows/releases" target="_blank" style="color: #667eea;">GitHub</a>
+                </div>
+
+                <h3>Step 3: Verify Installation</h3>
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre># Check all versions
+node -v && npm -v
+
+# Check if npx is available (comes with npm 5.2+)
+npx -v
+
+# Test Node.js with a simple command
+node -e "console.log('Node.js is working!')"</pre>
+                </div>
+
                 <h3>Prerequisites</h3>
                 <ul>
-                    <li>Node.js (version 14 or higher)</li>
-                    <li>npm or yarn package manager</li>
+                    <li>✅ Node.js (version 14 or higher) - <strong>Now Installed!</strong></li>
+                    <li>✅ npm or yarn package manager - <strong>Comes with Node.js!</strong></li>
                     <li>Basic JavaScript knowledge</li>
                     <li>Text editor (VS Code recommended)</li>
                 </ul>
 
-                <h3>Create a New React Project</h3>
+                <h3>Step 4: Create a New React Project</h3>
                 <div class="command-box">
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                     <pre>npx create-react-app my-first-react-app</pre>
@@ -469,7 +589,7 @@ function App() {
     &lt;UserProfile 
       name="John Doe"
       age={30}
-      email="john@example.com"
+      email="<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bed4d1d6d0fedbc6dfd3ced2db90ddd1d3">[email&#160;protected]</a>"
       isAdmin={true}
     /&gt;
   );
@@ -607,7 +727,7 @@ function App() {
   const [user, setUser] = useState({
     name: 'John',
     age: 25,
-    email: 'john@example.com'
+    email: '<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcb6b3b4b29cb9a4bdb1acb0b9f2bfb3b1">[email&#160;protected]</a>'
   });
 
   const updateName = (newName) =&gt; {
@@ -2212,7 +2332,7 @@ npm install @mui/material @emotion/react @emotion/styled</pre>
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         function copyCode(button) {
             const codeBlock = button.parentElement;
             const code = codeBlock.querySelector('pre').textContent;
@@ -2235,16 +2355,4 @@ npm install @mui/material @emotion/react @emotion/styled</pre>
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                e.preventDef
